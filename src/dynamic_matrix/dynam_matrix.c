@@ -6,7 +6,7 @@
 bool input(int *N, int *M);
 int **create_matrix(int N, int M);
 void free_matrix(int **arr, int N);
-void matrix_operation(int **arr, int N, int M);
+bool matrix_input(int **arr, int N, int M);
 void matrix_output(int **arr, int N, int M);
 
 int main() {
@@ -15,9 +15,11 @@ int main() {
 
     if (input(&N, &M) == true) {
         arr = create_matrix(N, M);
-        matrix_operation(arr, N, M);
-        matrix_output(arr, N, M);
-        free_matrix(arr, N);
+        if (matrix_input(arr, N, M) == true) {
+            matrix_output(arr, N, M);
+            free_matrix(arr, N);
+        } else 
+            (printf("n/a"));
     } else
         (printf("n/a"));
 }
@@ -51,12 +53,18 @@ void free_matrix(int **arr, int N) {
     free(arr);
 }
 
-void matrix_operation(int **arr, int N, int M) {
+bool matrix_input(int **arr, int N, int M) {
+    char term;
+    bool flag = true;
+
     for (int i = 0; i < N; i++) {
         for (int j = 0; j < M; j++) {
-            arr[i][j] = i * j;
+            if (scanf("%d%c", &arr[i][j], &term) != 2 || (term != '\n' && term != ' ')) {
+                flag = false;
+            }
         }
     }
+    return flag;
 }
 
 void matrix_output(int **arr, int N, int M) {
